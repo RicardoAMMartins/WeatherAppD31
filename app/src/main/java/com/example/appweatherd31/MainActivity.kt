@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -83,7 +84,9 @@ fun Cebacalho(): Unit {
         Button(onClick = { /*TODO*/ },
             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
             contentPadding = PaddingValues(),
-            modifier = Modifier.clip(CircleShape).width(35.dp)
+            modifier = Modifier
+                .clip(CircleShape)
+                .width(35.dp)
             )
         {
                 Image(painter = painterResource(id = R.drawable.foto),
@@ -91,6 +94,18 @@ fun Cebacalho(): Unit {
         }
     }
     
+}
+
+@Preview(showBackground = true, heightDp = 60, widthDp = 380)
+@Composable
+fun Texto(): Unit {
+    Row {
+        Column (verticalArrangement = Arrangement.Center){
+            Text(text = "Olá Ricardo")
+            Text(text = "2 novembro, quinta.feira 2023")
+            Text(text = "Sintra")
+        }
+    }
 }
 
 
