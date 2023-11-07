@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -51,7 +53,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    page()
                 }
             }
         }
@@ -83,6 +85,7 @@ fun page(): Unit {
         Cebacalho()
         dataNome("Ricardo")//não era preciso porque ja foi inicializada
         MainConteiner()
+        proximosSeteDias()
     }
 
 }
@@ -90,13 +93,21 @@ fun page(): Unit {
 @Preview(showBackground = true, heightDp = 350, widthDp = 380)
 @Composable
 fun MainConteiner(): Unit {
-   Box(modifier = Modifier
-       .height(300.dp)
-       .background(Color.White)
-       .fillMaxWidth()
+   Box(
+       modifier = Modifier
+           .height(300.dp)
+           .background(Color.Transparent)
+           .fillMaxWidth(),
+       contentAlignment = Alignment.Center
    )
    {
-       Column {
+           Box(
+               modifier = Modifier
+                   .clip(CircleShape)
+                   .background(Color.White)
+                   .size(280.dp)
+           )
+           {
            Box(
                modifier = Modifier
                    .fillMaxWidth()
@@ -107,7 +118,9 @@ fun MainConteiner(): Unit {
                Image(painter = painterResource(id = R.drawable.sun),
                contentDescription = "sun")
            }
-           Row (modifier = Modifier.fillMaxWidth(),
+           Row (modifier = Modifier
+               .fillMaxWidth()
+               .padding(0.dp, 180.dp, 0.dp, 0.dp),
                verticalAlignment = Alignment.Bottom,
                horizontalArrangement = Arrangement.Center){
                Text(text = "23ºC",
@@ -118,7 +131,7 @@ fun MainConteiner(): Unit {
                Text(
                    text = "Limpo",
                    fontWeight = FontWeight.Light,
-                   fontSize = TextUnit(15f, TextUnitType.Sp),
+                   fontSize = TextUnit(10f, TextUnitType.Sp),
                    color = MaterialTheme.colorScheme.secondary
                )
            }
@@ -188,6 +201,80 @@ fun dataNome(name:String="Ricardo"): Unit {//parametros para dentro da function
                 color = MaterialTheme.colorScheme.secondary
             )
         }
+
+}
+//var pode mudar o valor dentro dela && val não pode mudar o valor dentro dela
+
+var informacaoSeteDias = listOf(
+    temperaturaDia(
+        temperatura = 25,
+        estado = "limpo",
+        resource = R.drawable.sun
+    ),
+    temperaturaDia(
+    temperatura = 25,
+    estado = "limpo",
+    resource = R.drawable.cloudy
+),
+    temperaturaDia(
+        temperatura = 25,
+        estado = "limpo",
+        resource = R.drawable.snowy
+
+),
+    temperaturaDia(
+        temperatura = 25,
+        estado = "limpo",
+        resource = R.drawable.rainy
+),
+    temperaturaDia(
+        temperatura = 25,
+        estado = "limpo",
+        resource = R.drawable.rainy
+
+
+    ),
+    temperaturaDia(
+        temperatura = 25,
+        estado = "limpo",
+        resource = R.drawable.rainy
+    )
+)
+
+
+@Preview(showBackground = true, heightDp = 350, widthDp = 380)
+@Composable
+fun proximosSeteDias(): Unit {
+    LazyRow(){
+        items(informacaoSeteDias){
+            proximoDia(temperaturaDia = it)
+        }
+    }
+}
+
+//@Preview(showBackground = true)
+@Composable
+fun proximoDia(
+    temperaturaDia: temperaturaDia
+): Unit {
+    Column (
+        modifier = Modifier
+            .width(100.dp)
+            .padding(15.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Image(painter = painterResource(id = temperaturaDia.resource), contentDescription = temperaturaDia.estado)
+        Text(text = temperaturaDia.temperatura.toString())
+        Text(text = temperaturaDia.estado)
+
+        var tamanhoFonte = TextUnit(10f,TextUnitType.Sp)
+
+        if (temperaturaDia.estado == "Tempestade"){
+            tamanhoFonte = TextUnit(8f, TextUnitType.Sp)
+        }
+
+        Text(text = temperaturaDia.estado, fontSize = tamanhoFonte)
+    }
 
 }
 
